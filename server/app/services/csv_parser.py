@@ -7,8 +7,13 @@ import pandas as pd
 
 from app.schemas.dataset import ColumnType
 
-# Matches optional currency prefix (e.g. "LKR ", "$", "Rs.") + formatted number
-_CURRENCY_RE = re.compile(r"^(?:[A-Za-z$€£¥₹]{1,5}\.?\s*)?-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?$")
+# Matches currency symbol ("$45.50"), known currency code + space ("LKR 125,000.00"),
+# or comma-formatted number ("12,500.00") — never hyphenated IDs like "ORD-1011".
+_CURRENCY_RE = re.compile(
+    r"^(?:(?:\$|€|£|¥|₹)\s*|(?:LKR|USD|EUR|GBP|INR|AUD|CAD|SGD|Rs\.?)\s+)"
+    r"-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?$"
+    r"|^-?\d{1,3}(?:,\d{3})+(?:\.\d+)?$"
+)
 _ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(?::\d{2})?)?$")
 _SLASH_DATE_RE = re.compile(r"^\d{1,2}[/\-]\d{1,2}[/\-]\d{2,4}$")
 

@@ -20,6 +20,7 @@ def test_parse_and_profile_clean_orders_golden() -> None:
 
     col_map = {c.name: c for c in profile.columns}
     assert col_map["order_date"].inferred_type == "date"
+    assert col_map["order_id"].inferred_type == "string"
     assert col_map["revenue"].inferred_type in ("integer", "float")
     assert round(float(parsed.df["revenue"].sum()), 2) == 960190.0
 
