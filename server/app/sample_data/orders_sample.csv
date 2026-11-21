@@ -1,0 +1,25 @@
+order_id,order_date,customer,city,category,product,quantity,unit_price,discount_pct,revenue,status
+ORD-1001,2026-08-03,Kasun Perera,Colombo,Electronics,Wireless Mouse,2,3500,0,7000,Paid
+ORD-1002,2026-08-07,Nimali Silva,Kandy,Electronics,Mechanical Keyboard,1,14500,5,13775,Paid
+ORD-1003,2026-08-12,Dilshan Fernando,Colombo,Furniture,Ergonomic Chair,1,42000,10,37800,Paid
+ORD-1004,2026-08-15,Tharushi Jayawardena,Galle,Accessories,USB-C Hub,3,4800,10,12960,Paid
+ORD-1005,2026-08-19,Kasun Perera,Colombo,Electronics,27-inch Monitor,1,68000,5,64600,Paid
+ORD-1006,2026-08-24,Ruwan Bandara,Kandy,Accessories,Laptop Stand,4,5200,15,17680,Cancelled
+ORD-1007,2026-08-28,Amaya Wickramasinghe,Colombo,Furniture,Standing Desk,1,85000,5,80750,Paid
+ORD-1008,2026-09-02,Nimali Silva,Kandy,Electronics,Wireless Mouse,5,3500,20,14000,Paid
+ORD-1009,2026-09-05,Chamara Dias,Galle,Accessories,Webcam HD,2,9500,5,18050,Paid
+ORD-1010,2026-09-09,Dilshan Fernando,Colombo,Electronics,Mechanical Keyboard,2,14500,10,26100,Paid
+ORD-1011,2026-09-14,Sahan Gunasekara,Colombo,Furniture,Ergonomic Chair,2,42000,15,71400,Unpaid
+ORD-1012,2026-09-18,Tharushi Jayawardena,Galle,Accessories,USB-C Hub,6,4800,20,23040,Paid
+ORD-1013,2026-09-22,Kasun Perera,Colombo,Electronics,Noise-Cancelling Headphones,1,32000,0,32000,Paid
+ORD-1014,2026-09-27,Ruwan Bandara,Kandy,Accessories,Laptop Stand,3,5200,10,14040,Paid
+ORD-1015,2026-09-30,Amaya Wickramasinghe,Colombo,Electronics,27-inch Monitor,2,68000,10,122400,Paid
+ORD-1016,2026-10-03,Chamara Dias,Galle,Electronics,Wireless Mouse,8,3500,25,21000,Paid
+ORD-1017,2026-10-06,Nimali Silva,Kandy,Furniture,Standing Desk,1,85000,0,85000,Paid
+ORD-1018,2026-10-10,Dilshan Fernando,Colombo,Accessories,Webcam HD,4,9500,15,32300,Paid
+ORD-1019,2026-10-14,Sahan Gunasekara,Colombo,Electronics,Mechanical Keyboard,3,14500,15,36975,Unpaid
+ORD-1020,2026-10-18,Kasun Perera,Colombo,Accessories,USB-C Hub,10,4800,25,36000,Paid
+ORD-1021,2026-10-21,Tharushi Jayawardena,Galle,Electronics,Noise-Cancelling Headphones,2,32000,10,57600,Paid
+ORD-1022,2026-10-25,Ruwan Bandara,Kandy,Furniture,Ergonomic Chair,1,42000,0,42000,Cancelled
+ORD-1023,2026-10-28,Amaya Wickramasinghe,Colombo,Electronics,27-inch Monitor,1,68000,5,64600,Paid
+ORD-1024,2026-10-31,Nimali Silva,Kandy,Accessories,Laptop Stand,7,5200,20,29120,Paid

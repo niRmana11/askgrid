@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     max_upload_size_mb: int = 10
     max_rows: int = 100_000
     max_columns: int = 50
+    session_ttl_minutes: int = 60
+    session_storage_dir: str = "/tmp/askgrid_sessions"
 
     model_config = SettingsConfigDict(
         env_file="../.env",
