@@ -31,3 +31,21 @@ class DatasetProfile(BaseModel):
     date_format_note: str | None = None
     columns: list[ColumnProfile]
     preview_rows: list[dict[str, JsonScalar]]
+
+
+class DatasetSessionResponse(BaseModel):
+    """Returned after uploading a CSV, loading sample data, or fetching a session."""
+
+    session_id: str
+    filename: str
+    is_sample: bool = False
+    expires_at: str
+    privacy_notice: str
+    profile: DatasetProfile
+
+
+class DeleteSessionResponse(BaseModel):
+    """Confirmation that an ephemeral dataset session was deleted."""
+
+    session_id: str
+    deleted: bool
