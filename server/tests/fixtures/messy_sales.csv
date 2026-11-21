@@ -1,0 +1,14 @@
+Sale_ID;Sale_Date;Branch;Item;Amount;Payment_Method
+S-01;15/09/2026;Colombo;Coffee Beans 1kg;LKR 4,500.00;Card
+S-02;18/09/2026;Kandy;Green Tea Pack;LKR 1,250.50;Cash
+S-03;21/09/2026;Colombo;Espresso Machine;LKR 125,000.00;Card
+S-04;25/09/2026;Galle;Milk Frother;LKR 6,800.00;
+S-05;28/09/2026;Kandy;Coffee Beans 1kg;LKR 4,500.00;Cash
+S-05;28/09/2026;Kandy;Coffee Beans 1kg;LKR 4,500.00;Cash
+S-06;02/10/2026;Colombo;Ceramic Mug Set;LKR 3,200.00;Card
+S-07;05/10/2026;Galle;Green Tea Pack;;Cash
+S-08;10/10/2026;Colombo;Coffee Beans 1kg;LKR 9,000.00;Bank Transfer
+S-09;14/10/2026;Kandy;Ceramic Mug Set;LKR 3,200.00;Card
+S-10;19/10/2026;Colombo;French Press;LKR 7,450.00;Card
+S-11;22/10/2026;Galle;Milk Frother;LKR 6,800.00;Cash
+S-12;29/10/2026;Colombo;Coffee Beans 1kg;LKR 4,500.00;Card
