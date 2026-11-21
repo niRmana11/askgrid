@@ -9,6 +9,13 @@ from app.schemas.analysis import AnalysisResponse, CalculationAudit, ChartPoint,
 from app.schemas.dataset import ColumnType, JsonScalar
 from app.schemas.intent import AggFunc, AnalysisIntent, FilterClause
 from app.services.csv_parser import ParsedCSV
+from app.services.engine_advanced import (
+    run_compare,
+    run_correlation,
+    run_distribution,
+    run_quality_report,
+    run_time_series,
+)
 from app.services.intent_validator import IntentValidationError, validate_intent
 
 
@@ -338,4 +345,49 @@ def execute_intent(parsed: ParsedCSV, raw_intent: AnalysisIntent) -> AnalysisRes
             ),
         )
 
-    raise NotImplementedError(f"Operation '{op}' will be implemented in Step 13.")
+    if op == "time_series":
+        return run_time_series(
+            parsed,
+            filtered,
+            intent,
+            filters_applied=filters_applied,
+            rows_scanned=rows_scanned,
+            t0=t0,
+            grouped_agg_fn=_compute_grouped_agg,
+        )
+
+    if op == "compare":
+        return run_compare(
+            parsed,
+            filtered,
+            intent,
+            filters_applied=filters_applied,
+            rows_scanned=rows_scanned,
+            t0=t0,
+            agg_fn=_compute_agg,
+        )
+
+    if op == "distribution":
+        return run_distribution(
+            parsed,
+            filtered,
+            intent,
+            filters_applied=filters_applied,
+            rows_scanned=rows_scanned,
+            t0=t0,
+        )
+
+    if op == "correlation":
+        return run_correlation(
+            parsed,
+            filtered,
+            intent,
+            filters_applied=filters_applied,
+            rows_scanned=rows_scanned,
+            t0=t0,
+        )
+
+    if op == "quality_report":
+        return run_quality_report(parsed, t0=t0)
+
+    raise IntentValidationError(f"Unsupported operation '{op}'.")
