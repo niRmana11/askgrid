@@ -1,0 +1,17 @@
+sku,item_name,category,stock_qty,reorder_level,unit_cost
+INV-001,Wireless Mouse,Electronics,45,15,2100
+INV-002,Mechanical Keyboard,Electronics,18,10,9200
+INV-003,USB-C Hub,Accessories,62,20,2800
+INV-004,Laptop Stand,Accessories,30,10,3100
+INV-005,Webcam HD,Accessories,12,10,5800
+INV-006,27-inch Monitor,Electronics,8,5,48000
+INV-007,Ergonomic Chair,Furniture,14,5,28000
+INV-008,Standing Desk,Furniture,5,3,59000
+INV-009,HDMI Cable,Accessories,-4,25,950
+INV-010,Desk Lamp,Furniture,,10,4200
+INV-011,Notebook Pack,Stationery,120,30,650
+INV-012,Gel Pen Box,Stationery,85,25,800
+INV-013,Enterprise Server Rack,Hardware,2,1,950000
+INV-014,Mechanical Keyboard,Electronics,18,10,9200
+INV-015,Mouse Pad,Accessories,75,20,750
+INV-016,Whiteboard Marker,Stationery,90,30,450
