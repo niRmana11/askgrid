@@ -59,3 +59,25 @@ class AnalysisResponse(BaseModel):
     chart: ChartSpec | None = None
     audit: CalculationAudit | None = None
     suggested_alternative: str | None = None
+
+
+class AskRequest(BaseModel):
+    """Natural-language question submitted against an active ephemeral dataset."""
+
+    question: str = Field(..., min_length=2, max_length=500)
+
+
+class FeedbackRequest(BaseModel):
+    """Metadata-only thumbs-up/down rating (zero raw data or PII)."""
+
+    session_id: str
+    operation: str
+    is_helpful: bool
+
+
+class FeedbackResponse(BaseModel):
+    """Aggregate feedback confirmation."""
+
+    recorded: bool
+    total_helpful: int
+    total_unhelpful: int
