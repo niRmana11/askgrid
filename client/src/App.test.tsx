@@ -103,4 +103,62 @@ describe('App dataset workspace', () => {
             expect(screen.getByRole('alert')).toHaveTextContent('Binary file detected.')
         })
     })
+
+    it('submits a question, renders verified answer & audit panel, and sends feedback', async () => {
+        const fetchMock = vi
+            .fn()
+            .mockResolvedValueOnce({ ok: true, json: async () => MOCK_SESSION })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => ({
+                    status: 'ok',
+                    headline: 'SUM(revenue) = 960,190.00',
+                    explanation: 'Computed deterministic sum of revenue across 24 matched rows.',
+                    data: { value: 960190.0 },
+                    rows: [],
+                    chart: {
+                        chart_type: 'kpi',
+                        title: 'SUM of revenue',
+                        x_label: null,
+                        y_label: null,
+                        points: [{ label: 'revenue', value: 960190.0, pct_of_total: null, x_value: null }],
+                    },
+                    audit: {
+                        operation: 'aggregate',
+                        columns_used: ['revenue'],
+                        filters_applied: [],
+                        rows_scanned: 24,
+                        rows_matched: 24,
+                        nulls_excluded: 0,
+                        date_format_used: 'ISO (YYYY-MM-DD)',
+                        execution_ms: 4.2,
+                    },
+                    suggested_alternative: null,
+                }),
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => ({ recorded: true, total_helpful: 1, total_unhelpful: 0 }),
+            })
+        vi.stubGlobal('fetch', fetchMock)
+
+        render(<App />)
+        fireEvent.click(screen.getByRole('button', { name: 'Try Sample Dataset' }))
+        await waitFor(() => {
+            expect(screen.getByText('What is the total revenue?')).toBeInTheDocument()
+        })
+
+        fireEvent.click(screen.getByRole('button', { name: 'What is the total revenue?' }))
+        await waitFor(() => {
+            expect(screen.getByText('SUM(revenue) = 960,190.00')).toBeInTheDocument()
+        })
+
+        fireEvent.click(screen.getByRole('button', { name: /Show how this was calculated/i }))
+        expect(screen.getByText('aggregate')).toBeInTheDocument()
+
+        fireEvent.click(screen.getByRole('button', { name: 'Mark answer helpful' }))
+        await waitFor(() => {
+            expect(fetchMock).toHaveBeenCalledTimes(3)
+        })
+    })
 })
