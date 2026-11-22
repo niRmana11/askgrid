@@ -2,7 +2,7 @@ import time
 from collections.abc import Callable
 
 from google import genai
-from google.genai import errors, types
+from google.genai import types
 
 from app.schemas.dataset import ColumnType
 from app.schemas.intent import AnalysisIntent
@@ -92,7 +92,7 @@ class GeminiAIProvider:
                 )
                 self._breaker.reset(model)
                 return AnalysisIntent.model_validate_json(response.text or "{}")
-            except (errors.ServerError, errors.ClientError, ValueError) as exc:
+            except Exception as exc:
                 self._breaker.trip(model)
                 last_error = exc
 
