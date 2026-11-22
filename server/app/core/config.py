@@ -16,8 +16,11 @@ class Settings(BaseSettings):
     session_ttl_minutes: int = 60
     session_storage_dir: str = "/tmp/askgrid_sessions"
     gemini_api_key: str = ""
-    gemini_models: str = "gemini-3.5-flash-lite,gemini-3.7-flash,gemini-3.8-flash"
-    ai_timeout_seconds: float = 15.0
+    gemini_models: str = (
+        "gemini-3.5-flash-lite,gemini-3.1-flash-lite,"
+        "gemini-3.5-flash,gemini-3.6-flash,gemini-3.7-flash"
+    )
+    ai_timeout_seconds: float = 25.0
     ai_circuit_cooldown_seconds: int = 120
     max_concurrent_analyses: int = 2
 

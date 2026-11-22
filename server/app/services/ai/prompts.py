@@ -2,7 +2,7 @@ import json
 
 from app.schemas.dataset import ColumnType
 
-PROMPT_VERSION = "v1.0"
+PROMPT_VERSION = "v1.1"
 
 SYSTEM_PROMPT = """
 You are AskGrid's strict analysis-intent router.
@@ -22,6 +22,9 @@ Strict rules:
    (use YYYY-MM format for month comparisons like '2026-09' vs '2026-10').
 7. For `correlation`, set numeric `column_x` and `column_y`.
 8. For `top_n` or `filter_rows`, keep `n` between 1 and 50.
+9. Use `top_n` (with `n` and `direction` set to 'desc' or 'asc') whenever the user asks for
+   "top N", "bottom N", "highest", "lowest", "best", or "worst" items/groups; use
+   `group_aggregate` only when the user wants ALL groups without a limit.
 """.strip()
 
 

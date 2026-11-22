@@ -41,7 +41,7 @@ jobs:
         run: uv run ruff format --check .
 
       - name: Type-check with Mypy
-        run: uv run mypy app tests
+        run: uv run mypy app evals tests
 
       - name: Run Pytest
         run: uv run pytest -v
