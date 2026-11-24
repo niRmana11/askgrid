@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.routes.datasets import get_session_store
 from app.core.config import Settings, get_settings
+from app.core.rate_limit import limit_ask_requests
 from app.schemas.analysis import (
     AnalysisResponse,
     AskRequest,
@@ -58,7 +59,11 @@ def get_ai_provider(settings: Annotated[Settings, Depends(get_settings)]) -> AIP
     )
 
 
-@router.post("/datasets/{session_id}/ask", response_model=AnalysisResponse)
+@router.post(
+    "/datasets/{session_id}/ask",
+    response_model=AnalysisResponse,
+    dependencies=[Depends(limit_ask_requests)],
+)
 async def ask_dataset(
     session_id: str,
     payload: AskRequest,
