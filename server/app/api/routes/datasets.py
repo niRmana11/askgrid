@@ -4,6 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 
 from app.core.config import Settings, get_settings
+from app.core.rate_limit import limit_upload_requests
 from app.schemas.dataset import DatasetSessionResponse, DeleteSessionResponse
 from app.services.csv_parser import CSVParseError, parse_csv_bytes
 from app.services.profiler import build_dataset_profile
@@ -48,6 +49,7 @@ def _to_response(meta: SessionMeta) -> DatasetSessionResponse:
     "/upload",
     response_model=DatasetSessionResponse,
     status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(limit_upload_requests)],
 )
 async def upload_dataset(
     file: UploadFile,
@@ -85,6 +87,7 @@ async def upload_dataset(
     "/sample",
     response_model=DatasetSessionResponse,
     status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(limit_upload_requests)],
 )
 def load_sample_dataset(
     settings: Annotated[Settings, Depends(get_settings)],

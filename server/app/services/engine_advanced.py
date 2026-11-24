@@ -8,6 +8,7 @@ import pandas as pd
 from app.schemas.analysis import AnalysisResponse, CalculationAudit, ChartPoint, ChartSpec
 from app.schemas.intent import AggFunc, AnalysisIntent
 from app.services.csv_parser import ParsedCSV
+from app.services.formatting import human_agg, human_col
 
 AggFn = Callable[[pd.DataFrame, str | None, AggFunc], tuple[float, int]]
 GroupedAggFn = Callable[[pd.DataFrame, str, str | None, AggFunc], list[tuple[str, float]]]
@@ -49,14 +50,18 @@ def run_time_series(
 
     elapsed_ms = round((time.perf_counter() - t0) * 1000, 2)
     metric_label = intent.metric_column or "rows"
+    readable_metric = human_col(intent.metric_column)
+    readable_agg = human_agg(agg)
     return AnalysisResponse(
         status="ok",
-        headline=f"{freq.capitalize()} {agg}({metric_label}) across {len(points)} periods.",
-        explanation=f"Grouped {len(ts_df):,} dated rows by {freq} using '{date_col}'.",
+        headline=(
+            f"{freq.capitalize()} {readable_agg} {readable_metric} across {len(points)} periods."
+        ),
+        explanation=f"Grouped {len(ts_df):,} dated rows by {freq} using {human_col(date_col)}.",
         data={"freq": freq, "series": {p.label: p.value for p in points}},
         chart=ChartSpec(
             chart_type="line",
-            title=f"{freq.capitalize()} {agg.upper()}({metric_label})",
+            title=f"{freq.capitalize()} {readable_agg} {readable_metric}",
             x_label=date_col,
             y_label=metric_label,
             points=points,
@@ -272,11 +277,16 @@ def run_correlation(
     ]
 
     elapsed_ms = round((time.perf_counter() - t0) * 1000, 2)
+    readable_x = human_col(col_x)
+    readable_y = human_col(col_y)
     return AnalysisResponse(
         status="ok",
-        headline=f"Pearson r = {pearson_r:.4f} ({strength} {direction} correlation)",
+        headline=(
+            f"{strength.capitalize()} {direction} relationship between "
+            f"{readable_x} and {readable_y} (r = {pearson_r:.4f})"
+        ),
         explanation=(
-            f"Measured linear correlation between '{col_x}' and '{col_y}' "
+            f"Measured linear relationship between {readable_x} and {readable_y} "
             f"across {len(pair_df):,} paired rows."
         ),
         data={
@@ -288,7 +298,7 @@ def run_correlation(
         },
         chart=ChartSpec(
             chart_type="scatter",
-            title=f"{col_x} vs {col_y} (r = {pearson_r:.4f})",
+            title=f"{readable_x} vs {readable_y} (r = {pearson_r:.4f})",
             x_label=col_x,
             y_label=col_y,
             points=points,
