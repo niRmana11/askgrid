@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     ai_timeout_seconds: float = 25.0
     ai_circuit_cooldown_seconds: int = 120
     max_concurrent_analyses: int = 2
+    rate_limit_enabled: bool = True
+    rate_limit_upload_per_min: int = 10
+    rate_limit_ask_per_min: int = 20
 
     model_config = SettingsConfigDict(
         env_file="../.env",

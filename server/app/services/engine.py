@@ -16,6 +16,7 @@ from app.services.engine_advanced import (
     run_quality_report,
     run_time_series,
 )
+from app.services.formatting import human_agg, human_col
 from app.services.intent_validator import IntentValidationError, validate_intent
 
 
@@ -233,18 +234,20 @@ def execute_intent(parsed: ParsedCSV, raw_intent: AnalysisIntent) -> AnalysisRes
         value, nulls_excluded = _compute_agg(filtered, intent.metric_column, agg)
         elapsed_ms = round((time.perf_counter() - t0) * 1000, 2)
         col_label = intent.metric_column or "rows"
+        readable_col = human_col(intent.metric_column)
+        readable_agg = human_agg(agg)
         return AnalysisResponse(
             status="ok",
-            headline=f"{agg.upper()}({col_label}) = {value:,.2f}",
+            headline=f"{readable_agg.capitalize()} {readable_col}: {value:,.2f}",
             explanation=(
-                f"Computed deterministic {agg} of '{col_label}' "
-                f"across {rows_matched:,} matched rows"
-                + (f" ({nulls_excluded} missing values excluded)." if nulls_excluded else ".")
+                f"Calculated {readable_agg} {readable_col} "
+                f"across {rows_matched:,} matching rows"
+                + (f" ({nulls_excluded} missing values skipped)." if nulls_excluded else ".")
             ),
             data={"value": value, "agg": agg, "column": col_label},
             chart=ChartSpec(
                 chart_type="kpi",
-                title=f"{agg.upper()} of {col_label}",
+                title=f"{readable_agg.capitalize()} {readable_col}",
                 points=[ChartPoint(label=col_label, value=value)],
             ),
             audit=CalculationAudit(
@@ -281,13 +284,17 @@ def execute_intent(parsed: ParsedCSV, raw_intent: AnalysisIntent) -> AnalysisRes
         ]
         elapsed_ms = round((time.perf_counter() - t0) * 1000, 2)
         metric_label = intent.metric_column or "rows"
+        readable_metric = human_col(intent.metric_column)
+        readable_group = human_col(intent.group_by)
+        readable_agg = human_agg(agg)
+        rank_word = "Lowest" if intent.direction == "asc" else "Highest"
         top_preview = (
             f"{points[0].label} ({points[0].value:,.2f})" if points else "No matching rows"
         )
         return AnalysisResponse(
             status="ok",
-            headline=f"Top result by {agg}({metric_label}): {top_preview}",
-            explanation=f"Grouped {rows_matched:,} matched rows by '{intent.group_by}'.",
+            headline=f"{rank_word} by {readable_agg} {readable_metric}: {top_preview}",
+            explanation=f"Grouped {rows_matched:,} matching rows by {readable_group}.",
             data={
                 "group_by": intent.group_by,
                 "metric": metric_label,
@@ -299,7 +306,7 @@ def execute_intent(parsed: ParsedCSV, raw_intent: AnalysisIntent) -> AnalysisRes
             },
             chart=ChartSpec(
                 chart_type="horizontal_bar" if op == "top_n" else "bar",
-                title=f"{agg.upper()}({metric_label}) by {intent.group_by}",
+                title=f"{readable_agg.capitalize()} {readable_metric} by {readable_group}",
                 x_label=intent.group_by,
                 y_label=metric_label,
                 points=points,
